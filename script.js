@@ -14,9 +14,7 @@ let divide = (a, b) => {
 }
 
 
-// try operate as switch
-
-// values
+// values 
 
 let firstNum = '0';
 let secondNum = '0';
@@ -25,7 +23,7 @@ let operatorValue = '';
 
 let operatorClickCount = 0;
 
-// Fix the division - need to figure out how to divide by 0
+// oepration and math
 
   function operate(){
       switch(operatorValue){
@@ -52,6 +50,7 @@ let operatorClickCount = 0;
             operatorValue = '';
     }
 }
+
 
 
 const display = document.querySelector('#display h1')
@@ -84,7 +83,7 @@ function getNumValue(){
     console.log("result" + " " + result);
 };
 
-
+// decimals
 
 function getDecimal(){
     let decimalVal = "";
@@ -109,9 +108,6 @@ function getDecimal(){
 function getOperatorValue(){
     let attribute = this.getAttribute('value');
     operatorValue = attribute;
-    console.log(operatorValue);
-    console.log(operatorClickCount);
-
 
         if(operatorClickCount >= 1){
             display.textContent = result;
@@ -135,7 +131,6 @@ function deleteLastNum1(){
         firstNum = parseFloat(firstNum);
 
     };
-    console.log("length" + " " + fixedNum.length)
 }
 
 function deleteLastNum2(){
@@ -149,8 +144,7 @@ function deleteLastNum2(){
         secondNum = fixedNum2;
         display.textContent = secondNum;
         secondNum = parseFloat(secondNum);
-    };
-    console.log("length2" + " " + fixedNum2.length)
+    }
 };
 
 
@@ -168,8 +162,7 @@ function equalDisplayResult(){
     else{
         display.textContent = firstNum;
     }
-
-}
+};
 
 
 // clear function
