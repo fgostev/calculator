@@ -90,6 +90,7 @@ function getDecimal(){
     decimalVal = value;
     decimalFirstNum = String(firstNum);
     decimalSecondNum = String(secondNum);
+    decimalResult = String(result);
 
     if(display.textContent == firstNum && decimalFirstNum.includes(".") === false)
     {
@@ -99,7 +100,7 @@ function getDecimal(){
     else if(display.textContent == secondNum && decimalSecondNum.includes(".") === false) {
         secondNum = secondNum + decimalVal;
         display.textContent = secondNum;
-    };
+    }   
 };
 
 // check if function is display on screen

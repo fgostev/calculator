@@ -1,0 +1,1 @@
+A calculator project - includes a delete button, clear button, oeperators and option to count decimals.
