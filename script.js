@@ -63,7 +63,7 @@ const del = document.getElementById('delete');
 
 
 
-// function to storage value
+// get values for all numbers
 
 
 function getNumValue(){
@@ -80,7 +80,6 @@ function getNumValue(){
         display.textContent = secondNum; 
     }
     operate();
-    console.log("result" + " " + result);
 };
 
 // decimals
@@ -176,7 +175,7 @@ function resetValues(){
     result = 0;
     // decimalCount = 0;
 
-}
+};
 
 
 
