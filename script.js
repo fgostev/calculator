@@ -114,6 +114,9 @@ function getOperatorValue(){
             firstNum = result;
             secondNum = 0; 
         } 
+        else if(operatorValue != "" && display.textContent === String(result)){
+            firstNum = result;
+        }
 };
 
 // delete last num
@@ -150,19 +153,23 @@ function deleteLastNum2(){
 
 // equal button function
 
+//  works as an equal function.
+// need to now sort out how to add the result ot the eqyasion
 function equalDisplayResult(){  
 
-
-    if(result === result && display.textContent != firstNum){
-        firstNum = result;
-        secondNum = 0;
+    if(display.textContent === String(firstNum)){
+       display.textContent = firstNum;
+       console.log(firstNum);
+    } else if(display.textContent === String(secondNum)){
         display.textContent = result;
+        console.log(secondNum);
+        firstNum = 0;
+        secondNum = 0;
         operatorClickCount = 0;
-    }
-    else{
-        display.textContent = firstNum;
-    }
+        operatorValue = '';
+    };
 };
+
 
 
 // clear function
@@ -179,9 +186,34 @@ function resetValues(){
 };
 
 
+// keyboard support
+
+// !!!!
+// problem comes after equals - if press after equals it stops working
+function keyboardSup (e){
+    let pressValue = 0;
+    const calcButtons = "1234567890";
+
+calcButtons.split("").forEach( number => 
+    {
+        if(e.key === number && operatorValue == ""){
+            firstNum = parseFloat(firstNum += number);
+            display.textContent = firstNum;
+        }else if(e.key === number && operatorValue !== ""){
+            secondNum = parseFloat(secondNum += number);
+            display.textContent = secondNum;
+            operate();
+            // operatorValue = "";
+            console.log(result)
+        }
+    });
+};
+
 
 
 // add event listeners
+
+    document.addEventListener('keydown', keyboardSup);
 
     Array.from(numbers).forEach(number => {
         number.addEventListener("click", getNumValue);
