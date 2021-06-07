@@ -144,28 +144,28 @@ function deleteLastNum2(){
         display.textContent = secondNum;
     }
     else{
-        secondNum = fixedNum2;
-        display.textContent = secondNum;
-        secondNum = parseFloat(secondNum);
+        display.textContent = fixedNum2;
+        secondNum = parseFloat(fixedNum2);
     }
 };
 
 
 // equal button function
 
-//  works as an equal function.
-// need to now sort out how to add the result ot the eqyasion
+
 function equalDisplayResult(){  
 
-    if(display.textContent === String(firstNum)){
+    if(display.textContent === String(firstNum) && firstNum !== secondNum){
        display.textContent = firstNum;
-       console.log(firstNum);
-    } else if(display.textContent === String(secondNum)){
+    } else if(display.textContent === String(secondNum) && firstNum !== secondNum){
         display.textContent = result;
-        console.log(secondNum);
         firstNum = 0;
         secondNum = 0;
         operatorClickCount = 0;
+        operatorValue = '';       
+    }
+    else if (firstNum === secondNum){
+        display.textContent = result;
         operatorValue = '';
     };
 };
@@ -181,32 +181,95 @@ function resetValues(){
     operatorValue = '';
     operatorClickCount = 0;
     result = 0;
-    // decimalCount = 0;
 
 };
 
 
 // keyboard support
 
-// !!!!
-// problem comes after equals - if press after equals it stops working
+
+
 function keyboardSup (e){
-    let pressValue = 0;
-    const calcButtons = "1234567890";
+
+// numbers
+
+const calcButtons = "1234567890";
 
 calcButtons.split("").forEach( number => 
     {
         if(e.key === number && operatorValue == ""){
             firstNum = parseFloat(firstNum += number);
             display.textContent = firstNum;
-        }else if(e.key === number && operatorValue !== ""){
+        }else if(e.key === number && operatorValue != ""){
             secondNum = parseFloat(secondNum += number);
             display.textContent = secondNum;
             operate();
-            // operatorValue = "";
-            console.log(result)
         }
     });
+
+// operator
+
+    const operatorButtons = "*/+-";
+
+
+    let currentOperator = "";
+    operatorButtons.split("").forEach( operator => {
+
+
+        if(e.key === operator && firstNum != ""){
+            operatorValue = String(operator);
+        }     
+
+         if (e.key === operator && display.textContent == secondNum){
+            operatorValue = String(operator);
+            display.textContent = result;
+            firstNum = result;
+            secondNum = 0;
+        }
+            else if(e.key === operator && display.textContent == result && operatorValue == ""){
+                operatorValue = String(operator);
+                firstNum = result;
+                secondNum = 0;
+        }
+
+    });
+
+// equal 
+
+    const equalButton = "=";
+
+    if(e.key == equalButton){
+        equalDisplayResult();
+    };
+
+    const backspace = "Backspace"
+    if(e.key == backspace){
+        if(firstNum == display.textContent && operatorClickCount === 0){
+            deleteLastNum1();
+        }
+        else if(secondNum == display.textContent && operatorClickCount >= 1){
+            deleteLastNum2();
+            operate();
+        }
+    };
+
+// decimal
+
+    const decimalButton = ".";
+    let decimalFirstNum = String(firstNum);
+    let decimalSecondNum =String(secondNum);
+
+    if (e.key == decimalButton){
+        if(display.textContent == firstNum && decimalFirstNum.includes(".") === false)
+        {
+            firstNum = firstNum + decimalButton;;
+            display.textContent = firstNum;
+        }
+        else if(display.textContent == secondNum && decimalSecondNum.includes(".") === false) {
+            secondNum = secondNum + decimalButton;
+            display.textContent = secondNum;
+        }; 
+    };
 };
 
 
@@ -231,11 +294,12 @@ calcButtons.split("").forEach( number =>
     decimal.addEventListener("click", getDecimal);
 
     del.addEventListener("click", () => {
-        if(firstNum == display.textContent){
+        if(firstNum == display.textContent && operatorClickCount === 0){
             deleteLastNum1();
         }
-        else if(secondNum == display.textContent){
+        else if(secondNum == display.textContent && operatorClickCount >= 1){
             deleteLastNum2();
             operate();
         }
+
     });
