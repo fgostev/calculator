@@ -237,10 +237,10 @@ calcButtons.split("").forEach( number =>
 // equal 
 
     const equalButton = "=";
-
+    
     if(e.key == equalButton){
         equalDisplayResult();
-    };
+    }
 
     const backspace = "Backspace"
     if(e.key == backspace){
@@ -258,7 +258,6 @@ calcButtons.split("").forEach( number =>
     const decimalButton = ".";
     let decimalFirstNum = String(firstNum);
     let decimalSecondNum =String(secondNum);
-
     if (e.key == decimalButton){
         if(display.textContent == firstNum && decimalFirstNum.includes(".") === false)
         {
