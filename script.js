@@ -236,8 +236,8 @@ calcButtons.split("").forEach( number =>
         }else if(e.key === number && operatorValue != ""){
             secondNum = secondNum += number;
             display.textContent = secondNum;
-            operate();
         }
+        operate();
     });
 
 // operator
@@ -290,7 +290,7 @@ calcButtons.split("").forEach( number =>
 
     const decimalButton = ".";
 
-    if(e.key == decimalButton && display.textContent == firstNum && operatorValue === '' || display.textContent == '0'){
+    if(e.key == decimalButton && display.textContent == firstNum && operatorValue === '' || display.textContent == '0' && operatorValue == ''){
 
         if (display.textContent == '0'){
             display.textContent = '0.';
@@ -306,10 +306,10 @@ calcButtons.split("").forEach( number =>
         }
 
         
-    }else if(e.key == decimalButton && display.textContent == secondNum && operatorValue != '' || display.textContent == '0'){
+    }else if(e.key == decimalButton && display.textContent == secondNum && operatorValue != '' || e.key == decimalButton && display.textContent == firstNum && operatorValue != ''){
 
-        if (display.textContent == '0'){
-            display.textContent = '0.';
+        if(operatorValue != '' && secondNum == ''){
+            display.textContent = '0.'
             secondNum = display.textContent;
         }
         else if(display.textContent.includes('.') == false){
