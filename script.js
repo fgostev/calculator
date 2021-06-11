@@ -16,8 +16,7 @@ let divide = (a, b) => {
 
 // values 
 
-let firstNum = '0';
-let secondNum = '0';
+
 let result = 0;
 let operatorValue = '';
 
@@ -26,23 +25,28 @@ let operatorClickCount = 0;
 // oepration and math
 
   function operate(){
+
+    let mathOne = parseFloat(firstNum);
+    let mathTwo = parseFloat(secondNum); 
+
       switch(operatorValue){
         case '*':
-          result = multiply(firstNum, secondNum);
+          result = multiply(mathOne, mathTwo);
           result = (parseFloat(result.toPrecision(12)))
           operatorClickCount++;    
              break;
          case  '/':
-                result = divide(firstNum, secondNum);
+                result = divide(mathOne, mathTwo);
+                result = (parseFloat(result.toPrecision(12)))
                 operatorClickCount++;   
             break;
         case '+':
-            result = add(firstNum, secondNum);
+            result = add(mathOne, mathTwo);
             result = (parseFloat(result.toPrecision(12)))
             operatorClickCount++;    
             break;
         case '-':
-           result = subtract(firstNum, secondNum);
+           result = subtract(mathOne, mathTwo);
            result = (parseFloat(result.toPrecision(12)))
            operatorClickCount++;    
             break;
@@ -65,54 +69,71 @@ const del = document.getElementById('delete');
 
 // get values for all numbers
 
+let firstNum = '';
+let secondNum = '';
 
 function getNumValue(){
     // num value 1
 
+
     if(operatorValue == ''){
         let atribute = this.getAttribute('value');
-        firstNum = parseFloat(firstNum + atribute);
+        firstNum = firstNum + atribute;
         display.textContent = firstNum;
-    // num value 2 
-    } else{
+    }
+    else{
         let atribute = this.getAttribute('value');
-        secondNum = parseFloat(secondNum + atribute);
+        secondNum = secondNum + atribute;
         display.textContent = secondNum; 
     }
     operate();
+
+
 };
 
-// decimals
 
-function getDecimal(){
-    let decimalVal = "";
-    let value = this.getAttribute('value');
-    decimalVal = value;
-    decimalFirstNum = String(firstNum);
-    decimalSecondNum = String(secondNum);
-    decimalResult = String(result);
 
-    if(display.textContent == firstNum && decimalFirstNum.includes(".") === false)
-    {
-        firstNum = firstNum + decimalVal;;
-        display.textContent = firstNum;
+// stop here
+
+
+function getDecimal1(){
+
+let decimalVal ='.';
+
+        if (display.textContent == '.'){
+            display.textContent = '0.';
+            firstNum = display.textContent;
+        }
+
+        decimal.disabled = true;
+};
+
+// function getDecimal2(){
+
+function getDecimal2(){
+    let decimalVal ='.';
+
+    if (display.textContent == '.'){
+        display.textContent = '0.';
+        secondNum = String(display.textContent);
     }
-    else if(display.textContent == secondNum && decimalSecondNum.includes(".") === false) {
-        secondNum = secondNum + decimalVal;
-        display.textContent = secondNum;
-    }   
-};
+ 
+    decimal.disabled = true;
+}
+
 
 // check if function is display on screen
 
 function getOperatorValue(){
     let attribute = this.getAttribute('value');
     operatorValue = attribute;
+    decimal.disabled = false;
+
 
         if(operatorClickCount >= 1){
             display.textContent = result;
             firstNum = result;
-            secondNum = 0; 
+            secondNum = ''; 
         } 
         else if(operatorValue != "" && display.textContent === String(result)){
             firstNum = result;
@@ -124,15 +145,21 @@ function getOperatorValue(){
 function deleteLastNum1(){
 
     let fixedNum = String(firstNum).slice(0, -1);
+
+
+
     if(fixedNum.length < 1){
         firstNum = 0;
+        display.textContent = firstNum;
+    }
+    else if(fixedNum.includes('.') == false){
+        decimal.disabled = false;
+        firstNum = fixedNum;
         display.textContent = firstNum;
     }
     else{
         firstNum = fixedNum;
         display.textContent = firstNum;
-        firstNum = parseFloat(firstNum);
-
     };
 }
 
@@ -143,9 +170,14 @@ function deleteLastNum2(){
         secondNum = 0;
         display.textContent = secondNum;
     }
+    else if(fixedNum2.includes('.') == false){
+        decimal.disabled = false;
+        secondNum = fixedNum2;
+        display.textContent = secondNum;
+    }
     else{
-        display.textContent = fixedNum2;
-        secondNum = parseFloat(fixedNum2);
+        secondNum = fixedNum2;
+        display.textContent = secondNum;
     }
 };
 
@@ -159,8 +191,8 @@ function equalDisplayResult(){
        display.textContent = firstNum;
     } else if(display.textContent === String(secondNum) && firstNum !== secondNum){
         display.textContent = result;
-        firstNum = 0;
-        secondNum = 0;
+        firstNum = '';
+        secondNum = '';
         operatorClickCount = 0;
         operatorValue = '';       
     }
@@ -175,12 +207,13 @@ function equalDisplayResult(){
 // clear function
 
 function resetValues(){
-    firstNum = '0';
-    secondNum = '0';
+    firstNum = '';
+    secondNum = '';
     display.textContent = firstNum;
     operatorValue = '';
     operatorClickCount = 0;
     result = 0;
+    display.textContent = 0;
 
 };
 
@@ -198,10 +231,10 @@ const calcButtons = "1234567890";
 calcButtons.split("").forEach( number => 
     {
         if(e.key === number && operatorValue == ""){
-            firstNum = parseFloat(firstNum += number);
+            firstNum = firstNum += number;
             display.textContent = firstNum;
         }else if(e.key === number && operatorValue != ""){
-            secondNum = parseFloat(secondNum += number);
+            secondNum = secondNum += number;
             display.textContent = secondNum;
             operate();
         }
@@ -224,12 +257,12 @@ calcButtons.split("").forEach( number =>
             operatorValue = String(operator);
             display.textContent = result;
             firstNum = result;
-            secondNum = 0;
+            secondNum = '';
         }
             else if(e.key === operator && display.textContent == result && operatorValue == ""){
                 operatorValue = String(operator);
                 firstNum = result;
-                secondNum = 0;
+                secondNum = '';
         }
 
     });
@@ -253,22 +286,44 @@ calcButtons.split("").forEach( number =>
         }
     };
 
-// decimal
+// get decimal
 
     const decimalButton = ".";
-    let decimalFirstNum = String(firstNum);
-    let decimalSecondNum =String(secondNum);
-    if (e.key == decimalButton){
-        if(display.textContent == firstNum && decimalFirstNum.includes(".") === false)
-        {
-            firstNum = firstNum + decimalButton;;
+
+    if(e.key == decimalButton && display.textContent == firstNum && operatorValue === '' || display.textContent == '0'){
+
+        if (display.textContent == '0'){
+            display.textContent = '0.';
+            firstNum = display.textContent;
+        }
+        else if(display.textContent.includes('.') == false){
+            firstNum = firstNum + decimalButton;
             display.textContent = firstNum;
         }
-        else if(display.textContent == secondNum && decimalSecondNum.includes(".") === false) {
+        else{
+            decimal.disabled = true;
+
+        }
+
+        
+    }else if(e.key == decimalButton && display.textContent == secondNum && operatorValue != '' || display.textContent == '0'){
+
+        if (display.textContent == '0'){
+            display.textContent = '0.';
+            secondNum = display.textContent;
+        }
+        else if(display.textContent.includes('.') == false){
             secondNum = secondNum + decimalButton;
             display.textContent = secondNum;
-        }; 
-    };
+        }
+        else{
+            decimal.disabled = true;
+
+        }
+
+    }
+
+
 };
 
 
@@ -278,7 +333,7 @@ calcButtons.split("").forEach( number =>
     document.addEventListener('keydown', keyboardSup);
 
     Array.from(numbers).forEach(number => {
-        number.addEventListener("click", getNumValue);
+        number.addEventListener("click",  getNumValue);
     });
 
     Array.from(operator).forEach(operator =>{
@@ -290,7 +345,15 @@ calcButtons.split("").forEach( number =>
 
     equal.addEventListener("click", equalDisplayResult);
 
-    decimal.addEventListener("click", getDecimal);
+    decimal.addEventListener("click", () =>
+    {
+        if(display.textContent == firstNum && operatorValue === ''){
+            getDecimal1();
+        }
+        else if (display.textContent == secondNum && operatorValue != ''){
+            getDecimal2();
+        }
+    });
 
     del.addEventListener("click", () => {
         if(firstNum == display.textContent && operatorClickCount === 0){
